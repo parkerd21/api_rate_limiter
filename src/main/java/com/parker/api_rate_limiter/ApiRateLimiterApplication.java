@@ -9,5 +9,4 @@ public class ApiRateLimiterApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiRateLimiterApplication.class, args);
 	}
-
 }
