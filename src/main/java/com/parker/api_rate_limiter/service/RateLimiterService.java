@@ -43,13 +43,24 @@ public class RateLimiterService {
     return true;
   }
 
-  // public int getRemainingRequests(String identifier)
-  // {
+  public int getRemainingRequests(String identifier)
+  {
+    RateLimitEntry entry = rateLimits.get(identifier);
+    if (entry == null)
+    {
+      return maxRequests;
+    }
+    return Math.max(0, maxRequests - entry.getCount());
+  }
 
-  // }
-
-  // public long getResetTime(String identifier)
-  // {
-
-  // }
+  public long getResetTime(String identifier)
+  {
+    RateLimitEntry entry = rateLimits.get(identifier);
+    if (entry == null)
+    {
+      return 0;
+    }
+    
+    return entry.getWindowStart() + windowMs;
+  }
 }
