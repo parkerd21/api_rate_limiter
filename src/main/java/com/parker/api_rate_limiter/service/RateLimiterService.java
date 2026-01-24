@@ -26,7 +26,7 @@ public class RateLimiterService {
     RateLimitEntry entry = rateLimits.get(identifier);
     long now = Instant.now().getEpochSecond();
 
-    // If it doesn't exist, create a new RateLimitEntry. Use current timestamp and count of 1
+    // If it doesn't exist, or is after window create a new RateLimitEntry.
     if (entry == null || now > entry.getWindowStart() + windowMs)
     {
       entry = new RateLimitEntry(1, now);
@@ -60,7 +60,7 @@ public class RateLimiterService {
     {
       return 0;
     }
-    
+
     return entry.getWindowStart() + windowMs;
   }
 }
