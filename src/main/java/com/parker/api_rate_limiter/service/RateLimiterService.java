@@ -14,13 +14,13 @@ public class RateLimiterService {
 
   private final ConcurrentHashMap<String, RateLimitEntry> rateLimits = new ConcurrentHashMap<>();
   private final int maxRequests;
-  private final long windowMs;
+  private final long windowSeconds;
   private static final Logger logger = LoggerFactory.getLogger(RateLimiterService.class);
 
   public RateLimiterService ()
   {
     maxRequests = 10;
-    windowMs = 60000; // 1 minute
+    windowSeconds = 60; // 1 minute
   }
 
   public boolean allowRequest(String identifier)
@@ -30,7 +30,7 @@ public class RateLimiterService {
     long now = Instant.now().getEpochSecond();
 
     // If it doesn't exist, or is after window create a new RateLimitEntry.
-    if (entry == null || now > entry.getWindowStart() + windowMs)
+    if (entry == null || now > entry.getWindowStart() + windowSeconds)
     {
       entry = new RateLimitEntry(1, now);
       rateLimits.put(identifier, entry);
@@ -67,6 +67,6 @@ public class RateLimiterService {
       return 0;
     }
 
-    return entry.getWindowStart() + windowMs;
+    return entry.getWindowStart() + windowSeconds;
   }
 }
