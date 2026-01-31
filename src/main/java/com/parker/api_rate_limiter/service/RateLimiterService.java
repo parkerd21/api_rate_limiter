@@ -3,6 +3,8 @@ package com.parker.api_rate_limiter.service;
 import java.util.concurrent.ConcurrentHashMap;
 import java.time.Instant;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.parker.api_rate_limiter.model.RateLimitEntry;
@@ -13,6 +15,7 @@ public class RateLimiterService {
   private final ConcurrentHashMap<String, RateLimitEntry> rateLimits = new ConcurrentHashMap<>();
   private final int maxRequests;
   private final long windowMs;
+  private static final Logger logger = LoggerFactory.getLogger(RateLimiterService.class);
 
   public RateLimiterService ()
   {
@@ -31,15 +34,18 @@ public class RateLimiterService {
     {
       entry = new RateLimitEntry(1, now);
       rateLimits.put(identifier, entry);
+      logger.info("Creating new rate limit entry. key: {}, count: {}, start time: {}", identifier, entry.getCount(), entry.getWindowStart());
       return true;
     }
 
     if (entry.getCount() >= maxRequests)
     {
+      logger.warn("Rate limit exceeded for key: {}. count: {}, start time: {}", identifier, entry.getCount(), entry.getWindowStart());
       return false;
     }
 
     entry.setCount(entry.getCount() + 1);
+    logger.info("Incrementing rate limit entry. key: {}, count: {}, start time: {}", identifier, entry.getCount(), entry.getWindowStart());
     return true;
   }
 
