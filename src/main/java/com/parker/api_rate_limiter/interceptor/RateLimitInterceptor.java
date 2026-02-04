@@ -21,7 +21,20 @@ public class RateLimitInterceptor implements HandlerInterceptor{
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception 
   {
-    return rateLimiterService.allowRequest("Test");
+    String id = request.getRemoteAddr();
+
+    if (!rateLimiterService.allowRequest(id))
+    {
+      response.setStatus(429);
+      response.setHeader("X-RateLimit-Limit", "10");
+      response.setHeader("X-RateLimit-Remaining", "0");
+      response.setHeader("X-RateLimit-Reset", String.valueOf(rateLimiterService.getResetTime(id)));
+      response.getWriter().print("{\"error\": \"Too many requests. Please try again later.\"}");
+      return false;
+    }
+    response.setHeader("X-RateLimit-Limit", "10");
+    response.setHeader("X-RateLimit-Remaining", String.valueOf(rateLimiterService.getRemainingRequests(id)));
+    return true;
   }
   
 }
