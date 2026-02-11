@@ -19,7 +19,7 @@ public class RateLimiterService {
 
   public RateLimiterService ()
   {
-    maxRequests = 10;
+    maxRequests = 100;
     windowSeconds = 60; // 1 minute
   }
 
