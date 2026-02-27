@@ -19,7 +19,11 @@ public class RateLimitInterceptor implements HandlerInterceptor{
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception 
   {
-    String id = request.getRemoteAddr();
+    String id = request.getHeader("X-User-ID");
+    if (id == null || id.isEmpty())
+    {
+      id = request.getRemoteAddr();
+    }
 
     if (!rateLimiterService.allowRequest(id))
     {
