@@ -67,6 +67,22 @@ ab -n 100 -c 1 http://localhost:8080/api/products
 - Average response time: 11.459ms
 - 95th percentile latency: 2ms
 
+## Responses
+### Rate limit exceeded response
+```json
+{"error": "Too many requests. Please try again later."}
+```
+
+### Successful products response
+```json
+["Product 1","Product 2","Product 3"]
+```
+
+### Successful users response
+```json
+["user1","user2","user3"]
+```
+
 
 
 
