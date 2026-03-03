@@ -1,10 +1,13 @@
 # API Rate Limiter
 ## This is a simple in progress API Rate Limiter project using Java Spring Boot
 
-### Algorithm Choice
+## Architecture Diagram
+<img src="src/main/resources/static/images/image-1.png" width="50%" alt="rate limiter architecture"/>
+
+## Algorithm Choice
 Currently, the project uses IP-based rate limiting with the Fixed Window algorithm. This algorithm was chosen because it is the most simple and easiest to implement. In the future I will be updating to use more sophisticated algorithms like Token Bucket
 
-### How to run and test
+## How to run and test
 **To run locally:**
 1. Clone or fork the repo
 2. Navigate to the project directory
@@ -82,6 +85,13 @@ ab -n 100 -c 1 http://localhost:8080/api/products
 ```json
 ["user1","user2","user3"]
 ```
+## Future Improvements
+**TODO:**
+- Make it configurable
+- Add different limits per endpoint
+- Hook up redis
+- Change rate limiter algorithm to Token Bucket
+- Monitoring/metrics with Spring Boot Actuator
 
 
 
