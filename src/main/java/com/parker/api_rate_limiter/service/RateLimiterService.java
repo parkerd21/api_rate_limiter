@@ -5,20 +5,20 @@ import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import com.parker.api_rate_limiter.config.RateLimitConfig;
 import com.parker.api_rate_limiter.model.RateLimitEntry;
 
 @Service
 public class RateLimiterService {
-
   private final ConcurrentHashMap<String, RateLimitEntry> rateLimits = new ConcurrentHashMap<>();
   private final int maxRequests;
   private final long windowSeconds;
   private static final Logger logger = LoggerFactory.getLogger(RateLimiterService.class);
 
-  public RateLimiterService ()
+  public RateLimiterService (RateLimitConfig rateLimitConfig)
   {
-    maxRequests = 100;
-    windowSeconds = 60; // 1 minute
+    maxRequests = rateLimitConfig.getMaxRequests();
+    windowSeconds = rateLimitConfig.getwindowSeconds();
   }
 
   public boolean allowRequest(String identifier)

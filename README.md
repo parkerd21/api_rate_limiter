@@ -87,7 +87,7 @@ ab -n 100 -c 1 http://localhost:8080/api/products
 ```
 ## Future Improvements
 **TODO:**
-- Make it configurable
+- ~~Make it configurable~~
 - Add different limits per endpoint
 - Hook up redis
 - Change rate limiter algorithm to Token Bucket
