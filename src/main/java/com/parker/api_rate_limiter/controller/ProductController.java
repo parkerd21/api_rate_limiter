@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.parker.api_rate_limiter.config.annotations.RateLimit;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -12,12 +14,14 @@ import java.util.ArrayList;
 public class ProductController {
   List<String> users = new ArrayList<>();
 
+  @RateLimit(requests = 100, windowSeconds = 60)
   @GetMapping("/products")
   public List<String> getProducts()
   {
     return List.of("Product 1", "Product 2", "Product 3");
   }
 
+  @RateLimit(requests = 10, windowSeconds = 60)
   @GetMapping("/users")
   public List<String> getUsers()
   {

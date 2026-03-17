@@ -11,26 +11,17 @@ import com.parker.api_rate_limiter.model.RateLimitEntry;
 @Service
 public class RateLimiterService {
   private final ConcurrentHashMap<String, RateLimitEntry> rateLimits = new ConcurrentHashMap<>();
-  private final int maxRequests;
-  private final long windowSeconds;
   private static final Logger logger = LoggerFactory.getLogger(RateLimiterService.class);
 
-  public RateLimiterService (RateLimitConfig rateLimitConfig)
+  public boolean allowRequest(String identifier, int maxRequests, int windowSeconds)
   {
-    maxRequests = rateLimitConfig.getMaxRequests();
-    windowSeconds = rateLimitConfig.getwindowSeconds();
-  }
-
-  public boolean allowRequest(String identifier)
-  {
-    
     RateLimitEntry entry = rateLimits.get(identifier);
     long now = Instant.now().getEpochSecond();
 
     // If it doesn't exist, or is after window create a new RateLimitEntry.
     if (entry == null || now > entry.getWindowStart() + windowSeconds)
     {
-      entry = new RateLimitEntry(1, now);
+      entry = new RateLimitEntry(1, now, windowSeconds);
       rateLimits.put(identifier, entry);
       logger.info("Creating new rate limit entry. key: {}, count: {}, start time: {}", identifier, entry.getCount(), entry.getWindowStart());
       return true;
@@ -47,7 +38,7 @@ public class RateLimiterService {
     return true;
   }
 
-  public int getRemainingRequests(String identifier)
+  public int getRemainingRequests(String identifier, int maxRequests)
   {
     RateLimitEntry entry = rateLimits.get(identifier);
     if (entry == null)
@@ -65,6 +56,6 @@ public class RateLimiterService {
       return 0;
     }
 
-    return entry.getWindowStart() + windowSeconds;
+    return entry.getWindowStart() + entry.getWindowSeconds();
   }
 }

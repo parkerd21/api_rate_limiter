@@ -4,11 +4,13 @@ public class RateLimitEntry {
 
   private int count;
   private long windowStart;
+  private int windowSeconds;
 
-  public RateLimitEntry(int count, long windowStart)
+  public RateLimitEntry(int count, long windowStart, int windowSeconds)
   {
     this.count = count;
     this.windowStart = windowStart;
+    this.windowSeconds = windowSeconds;
   }
 
   public int getCount()
@@ -29,5 +31,15 @@ public class RateLimitEntry {
   public void setWindowStart(long windowStart)
   {
     this.windowStart = windowStart;
+  }
+
+  public int getWindowSeconds()
+  {
+    return windowSeconds;
+  }
+
+  public void setWindowSeconds(int windowSeconds)
+  {
+    this.windowSeconds = windowSeconds;
   }
 }
