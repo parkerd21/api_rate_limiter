@@ -9,7 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.parker.api_rate_limiter.config.annotations.RateLimit;
 
 @Component
-public class RateLimitInterceptor implements HandlerInterceptor{
+public class RateLimitInterceptor implements HandlerInterceptor 
+{
 
   private final RateLimiterService rateLimiterService;
 
@@ -60,5 +61,4 @@ public class RateLimitInterceptor implements HandlerInterceptor{
     response.setHeader("X-RateLimit-Remaining", String.valueOf(rateLimiterService.getRemainingRequests(key, maxRequests)));
     return true;
   }
-  
 }

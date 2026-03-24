@@ -10,13 +10,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ApiRateLimiterApplicationTests {
+class ApiRateLimiterApplicationTests 
+{
 
   @Autowired
   private MockMvc mockMvc;
 
 	@Test
-	void testRateLimit() throws Exception{
+	void testRateLimit() throws Exception
+  {
     // Do 100 successful requests
     for (int i = 0; i < 100; i++)
     {

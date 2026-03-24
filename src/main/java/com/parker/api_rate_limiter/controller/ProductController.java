@@ -11,7 +11,8 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api")
-public class ProductController {
+public class ProductController 
+{
   List<String> users = new ArrayList<>();
 
   @RateLimit(requests = 100, windowSeconds = 60)

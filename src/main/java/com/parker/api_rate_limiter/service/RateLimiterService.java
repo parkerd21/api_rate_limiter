@@ -5,11 +5,11 @@ import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import com.parker.api_rate_limiter.config.RateLimitConfig;
 import com.parker.api_rate_limiter.model.RateLimitEntry;
 
 @Service
-public class RateLimiterService {
+public class RateLimiterService 
+{
   private final ConcurrentHashMap<String, RateLimitEntry> rateLimits = new ConcurrentHashMap<>();
   private static final Logger logger = LoggerFactory.getLogger(RateLimiterService.class);
 
@@ -55,7 +55,6 @@ public class RateLimiterService {
     {
       return 0;
     }
-
     return entry.getWindowStart() + entry.getWindowSeconds();
   }
 }

@@ -1,6 +1,7 @@
 package com.parker.api_rate_limiter.model;
 
-public class RateLimitEntry {
+public class RateLimitEntry 
+{
 
   private int count;
   private long windowStart;
