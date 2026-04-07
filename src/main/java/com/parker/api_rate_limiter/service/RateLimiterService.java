@@ -4,15 +4,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import com.parker.api_rate_limiter.model.RateLimitEntry;
 
 @Service
-public class RateLimiterService 
+@Profile("memory")
+public class RateLimiterService implements IRateLimiterService
 {
   private final ConcurrentHashMap<String, RateLimitEntry> rateLimits = new ConcurrentHashMap<>();
   private static final Logger logger = LoggerFactory.getLogger(RateLimiterService.class);
 
+  @Override
   public boolean allowRequest(String identifier, int maxRequests, int windowSeconds)
   {
     RateLimitEntry entry = rateLimits.get(identifier);
@@ -38,6 +41,7 @@ public class RateLimiterService
     return true;
   }
 
+  @Override
   public int getRemainingRequests(String identifier, int maxRequests)
   {
     RateLimitEntry entry = rateLimits.get(identifier);
@@ -48,6 +52,7 @@ public class RateLimiterService
     return Math.max(0, maxRequests - entry.getCount());
   }
 
+  @Override
   public long getResetTime(String identifier)
   {
     RateLimitEntry entry = rateLimits.get(identifier);

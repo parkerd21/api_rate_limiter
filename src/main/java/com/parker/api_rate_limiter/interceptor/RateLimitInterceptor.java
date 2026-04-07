@@ -3,18 +3,18 @@ package com.parker.api_rate_limiter.interceptor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import com.parker.api_rate_limiter.service.RateLimiterService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.parker.api_rate_limiter.config.annotations.RateLimit;
+import com.parker.api_rate_limiter.service.IRateLimiterService;
 
 @Component
 public class RateLimitInterceptor implements HandlerInterceptor 
 {
 
-  private final RateLimiterService rateLimiterService;
+  private final IRateLimiterService rateLimiterService;
 
-  public RateLimitInterceptor(RateLimiterService rateLimiterService)
+  public RateLimitInterceptor(IRateLimiterService rateLimiterService)
   {
     this.rateLimiterService = rateLimiterService;
   }
