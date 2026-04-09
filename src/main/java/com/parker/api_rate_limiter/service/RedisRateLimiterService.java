@@ -37,20 +37,22 @@ public class RedisRateLimiterService implements IRateLimiterService
       // First request in this window
       redisTemplate.opsForValue().set(key, "1", windowSeconds, TimeUnit.SECONDS);
       redisTemplate.opsForValue().set(key + ":start", String.valueOf(now), windowSeconds, TimeUnit.SECONDS);
-      logger.info("Creating new rate limit entry. key: {}, count: {}, start time: {}", key, countStr, String.valueOf(now));
+      logger.info("Creating new rate limit entry. key: {}, count: {}, start time: {}", key, 1, String.valueOf(now));
       return true;
     }
 
-    int count = Integer.parseInt(countStr);
+    long count = Long.parseLong(countStr);
     long windowStart = Long.parseLong(redisTemplate.opsForValue().get(key + ":start"));
 
     if (count >= maxRequests)
     {
-      logger.warn("Rate limit exceeded for key: {}. count: {}, start time: {}", identifier, count, windowStart);
+      logger.warn("Rate limit exceeded. key: {}, count: {}, start time: {}", identifier, count, windowStart);
       return false;
     }
 
-    redisTemplate.opsForValue().increment(key);
+    count = redisTemplate.opsForValue().increment(key);
+    logger.info("Incrementing rate limit entry. key: {}, count: {}, start time: {}", key, count, windowStart);
+
     return true;
   }
 

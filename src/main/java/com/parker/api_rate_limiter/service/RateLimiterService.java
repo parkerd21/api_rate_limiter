@@ -32,7 +32,7 @@ public class RateLimiterService implements IRateLimiterService
 
     if (entry.getCount() >= maxRequests)
     {
-      logger.warn("Rate limit exceeded for key: {}. count: {}, start time: {}", identifier, entry.getCount(), entry.getWindowStart());
+      logger.warn("Rate limit exceeded. key: {}, count: {}, start time: {}", identifier, entry.getCount(), entry.getWindowStart());
       return false;
     }
 
